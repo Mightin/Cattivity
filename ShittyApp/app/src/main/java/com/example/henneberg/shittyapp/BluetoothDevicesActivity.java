@@ -32,7 +32,7 @@ public class BluetoothDevicesActivity extends AppCompatActivity {
     private final BroadcastReceiver blReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             discoveries++;
-            (Toast.makeText(getApplicationContext(), "lol stuff "+discoveries, Toast.LENGTH_SHORT )).show();
+            (Toast.makeText(getApplicationContext(), "LOL stuff "+discoveries, Toast.LENGTH_SHORT )).show();
 
             String action = intent.getAction();
             // When discovery finds a device
