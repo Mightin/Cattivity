@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button button;
     Button bluetoothButton;
+    Button serverCommButton;
     ProgressBar progressBar;
     VideoView videoView;
     WebView webView;
@@ -56,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent bluetoothScreen = new Intent(getApplicationContext(), BluetoothDevicesActivity.class);
                 startActivity(bluetoothScreen);
+            }
+        });
+
+        serverCommButton = (Button) findViewById(R.id.serverButton);
+        serverCommButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent serverCommScreen = new Intent(getApplicationContext(), ServerConnectActivity.class);
+                startActivity(serverCommScreen);
             }
         });
 

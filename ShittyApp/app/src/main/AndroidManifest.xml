@@ -31,6 +31,8 @@
             android:label="@string/title_activity_bluetooth_devices"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity android:name=".ServerConnectActivity" >
+        </activity>
     </application>
 
 </manifest>
