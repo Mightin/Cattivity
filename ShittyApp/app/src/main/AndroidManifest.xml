@@ -23,16 +23,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
             android:name=".BluetoothDevicesActivity"
             android:label="@string/title_activity_bluetooth_devices"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity android:name=".ServerConnectActivity" >
+        </activity>
+        <activity android:name=".FingerprintOfflineActivity" >
         </activity>
     </application>
 

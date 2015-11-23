@@ -1,4 +1,4 @@
-package com.example.henneberg.shittyapp;
+package com.example.henneberg.shittyapp.Util;
 
 import android.widget.TextView;
 

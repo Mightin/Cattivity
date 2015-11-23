@@ -22,17 +22,9 @@ import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textView;
-    TextView textView1, textView2, textView3;
-
-    EditText editField;
-
-    Button button;
     Button bluetoothButton;
     Button serverCommButton;
-    ProgressBar progressBar;
-    VideoView videoView;
-    WebView webView;
+    Button fingerprintOfflineButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +36,6 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
-
-        textView = (TextView) findViewById(R.id.textView);
-        textView1 = (TextView) findViewById(R.id.tv1);
-        textView2 = (TextView) findViewById(R.id.tv2);
-        textView3 = (TextView) findViewById(R.id.tv3);
-
-        editField = (EditText) findViewById(R.id.editField);
-        button = (Button) findViewById(R.id.button);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        setupButtonOnClick();
 
         bluetoothButton = (Button) findViewById(R.id.bluetoothButton);
         bluetoothButton.setOnClickListener(new View.OnClickListener() {
@@ -74,32 +55,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void setupButtonOnClick() {
-        button.setOnClickListener(new View.OnClickListener() {
+        fingerprintOfflineButton = (Button) findViewById(R.id.serverButton);
+        fingerprintOfflineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetColors();
-                String input = editField.getText().toString();
-                if (input.equalsIgnoreCase("forsen")) {
-                    progressBar.setProgress(progressBar.getMax());
-                    textView1.setTextColor(Color.GREEN);
-                } else if (input.equalsIgnoreCase("trump")) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=YaG5SAw1n0")));
-                    progressBar.setProgress(0);
-                    textView3.setTextColor(Color.RED);
-                } else {
-                    textView2.setTextColor(Color.BLUE);
-                }
+                Intent serverCommScreen = new Intent(getApplicationContext(), ServerConnectActivity.class);
+                startActivity(serverCommScreen);
             }
         });
-    }
 
-    private void resetColors() {
-        textView1.setTextColor(Color.BLACK);
-        textView2.setTextColor(Color.BLACK);
-        textView3.setTextColor(Color.BLACK);
     }
 
     @Override

@@ -8,12 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.example.henneberg.shittyapp.Util.ServerCommunication;
 
 public class ServerConnectActivity extends AppCompatActivity {
 
