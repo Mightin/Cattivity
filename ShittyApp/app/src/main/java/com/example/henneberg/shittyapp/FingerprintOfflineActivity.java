@@ -25,7 +25,6 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
     private ArrayList<Short> measurements;
     private int goalMeasures;
-    private int doneMeasures;
 
     EditText braceletLoc;
     EditText phoneName;
@@ -42,7 +41,6 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
     private final BroadcastReceiver blReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             discoveries++;
-            (Toast.makeText(getApplicationContext(), "LOL stuff " + discoveries, Toast.LENGTH_SHORT)).show();
 
             String action = intent.getAction();
             // When discovery finds a device
@@ -59,8 +57,12 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             } else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
                 scanButton.setText("SCANNING...");
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                Toast.makeText(getApplicationContext(), "Scan finished", Toast.LENGTH_SHORT).show();
-                scanButton.setText("SCAN FOR BRACELET");
+                if(measurements.size() == goalMeasures) {
+                    Toast.makeText(getApplicationContext(), "Scan finished", Toast.LENGTH_SHORT).show();
+                    scanButton.setText("SCAN FOR BRACELET");
+                } else {
+                    bluetoothProcess();
+                }
             }
         }
     };
@@ -73,7 +75,6 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fingerprint_offline);
 
         measurements = new ArrayList<Short>();
-        doneMeasures = 0;
 
         braceletLoc = (EditText) findViewById(R.id.braceletLocation);
         phoneName = (EditText) findViewById(R.id.phoneName);

@@ -55,12 +55,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fingerprintOfflineButton = (Button) findViewById(R.id.serverButton);
+        fingerprintOfflineButton = (Button) findViewById(R.id.fingerprintOfflineButton);
         fingerprintOfflineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent serverCommScreen = new Intent(getApplicationContext(), ServerConnectActivity.class);
-                startActivity(serverCommScreen);
+                Intent fingerprintOffline = new Intent(getApplicationContext(), FingerprintOfflineActivity.class);
+                startActivity(fingerprintOffline);
             }
         });
 
