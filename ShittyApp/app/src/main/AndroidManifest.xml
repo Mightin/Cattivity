@@ -31,6 +31,8 @@
         </activity>
         <activity android:name=".FingerprintOfflineActivity" >
         </activity>
+        <activity android:name=".SettingsActivity" >
+        </activity>
     </application>
 
 </manifest>
