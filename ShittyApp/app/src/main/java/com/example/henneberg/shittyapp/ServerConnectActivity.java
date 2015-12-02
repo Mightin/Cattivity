@@ -25,7 +25,7 @@ public class ServerConnectActivity extends AppCompatActivity {
         debug = (TextView) findViewById(R.id.textView3);
         debug.setMovementMethod(new ScrollingMovementMethod());
         connectButton = (Button) findViewById(R.id.connectButton);
-        IP = (EditText) findViewById(R.id.serverIP);
+        IP = (EditText) findViewById(R.id.serverAddr);
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override

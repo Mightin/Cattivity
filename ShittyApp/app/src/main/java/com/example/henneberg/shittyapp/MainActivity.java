@@ -20,11 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.henneberg.shittyapp.Util.AppConstants;
+
 public class MainActivity extends AppCompatActivity {
 
     Button bluetoothButton;
     Button serverCommButton;
     Button fingerprintOfflineButton;
+    Button butSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
         StrictMode.setThreadPolicy(policy);
+
+        AppConstants.setContext(getApplicationContext());
 
         bluetoothButton = (Button) findViewById(R.id.bluetoothButton);
         bluetoothButton.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent fingerprintOffline = new Intent(getApplicationContext(), FingerprintOfflineActivity.class);
                 startActivity(fingerprintOffline);
+            }
+        });
+
+        butSettings = (Button) findViewById(R.id.butSettings);
+        butSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settings = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(settings);
             }
         });
 
