@@ -43,6 +43,8 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
     TextView tvServerResponse;
 
+    long lastSeen;
+
     BluetoothAdapter blAdapter;
     int REQUEST_ENABLE_BT = 5;
 
@@ -51,6 +53,11 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             discoveries++;
 
+            if((System.currentTimeMillis() - lastSeen) > 10000) {
+                measurements.add((short) -120);
+                lastSeen = System.currentTimeMillis();
+                (Toast.makeText(getApplicationContext(), "TOO LONG SINCE SEEN: SET -120", Toast.LENGTH_SHORT)).show();
+            }
             String action = intent.getAction();
             // When discovery finds a device
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
@@ -61,6 +68,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
                 if(device.getAddress().equalsIgnoreCase(AppConstants.BRACELET_ADDRESS)) {
                     addMeasurement(RSSI);
                     bluetoothProcess();
+                    lastSeen = System.currentTimeMillis();
                 }
 
 
@@ -95,6 +103,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 goalMeasures = Integer.parseInt(noOfMeasurements.getText().toString());
+                lastSeen = System.currentTimeMillis();
                 bluetoothProcess();
             }
         });
