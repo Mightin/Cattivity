@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -45,19 +46,24 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
     long lastSeen;
 
+
     BluetoothAdapter blAdapter;
     int REQUEST_ENABLE_BT = 5;
 
     private int discoveries = 0;
+    private int scans = 0;
     private final BroadcastReceiver blReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             discoveries++;
 
-            if((System.currentTimeMillis() - lastSeen) > 10000) {
-                measurements.add((short) -120);
+
+            if ((System.currentTimeMillis() - lastSeen) > 10000) {
+                addMeasurement((short) -110);
                 lastSeen = System.currentTimeMillis();
-                (Toast.makeText(getApplicationContext(), "TOO LONG SINCE SEEN: SET -120", Toast.LENGTH_SHORT)).show();
+                notifySlow();
+                bluetoothProcess();
             }
+
             String action = intent.getAction();
             // When discovery finds a device
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
@@ -67,19 +73,18 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if(device.getAddress().equalsIgnoreCase(AppConstants.BRACELET_ADDRESS)) {
                     addMeasurement(RSSI);
-                    bluetoothProcess();
-                    lastSeen = System.currentTimeMillis();
                 }
 
 
             } else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-                scanButton.setText("SCANNING...");
+                scans++;
+                scanButton.setText("SCANNING ("+scans+")...");
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 if(measurements.size() == goalMeasures) {
                     Toast.makeText(getApplicationContext(), "Scan finished", Toast.LENGTH_SHORT).show();
                     scanButton.setText("SCAN FOR BRACELET");
                 } else {
-                    bluetoothProcess();
+                    blAdapter.startDiscovery();
                 }
             }
         }
@@ -103,8 +108,18 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 goalMeasures = Integer.parseInt(noOfMeasurements.getText().toString());
+                updateSS();
                 lastSeen = System.currentTimeMillis();
-                bluetoothProcess();
+
+                if(blAdapter.isDiscovering()){
+                    blAdapter.cancelDiscovery();
+                }
+
+                boolean success = blAdapter.startDiscovery();
+
+                if(!success) {
+                    (Toast.makeText(getApplicationContext(), "BL Scan did not start", Toast.LENGTH_SHORT )).show();
+                }
             }
         });
 
@@ -122,9 +137,16 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
         setupBluetoothAdapter();
 
+        registerReceiver(blReceiver, new IntentFilter());
         registerReceiver(blReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
         registerReceiver(blReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED));
         registerReceiver(blReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
+
+
+    }
+
+    private void notifySlow() {
+        (Toast.makeText(getApplicationContext(), "TOO LONG SINCE SEEN: SET -110", Toast.LENGTH_SHORT)).show();
     }
 
     private void sendDataToServer() {
@@ -146,15 +168,22 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
     private void addMeasurement(Short RSSI) {
         measurements.add(RSSI);
+        lastSeen = System.currentTimeMillis();
 
-        signalStrength.setEnabled(true);
-        signalStrength.setText("Strength: "+measurements.toString());
+        updateSS();
 
         if(measurements.size() == goalMeasures) {
             blAdapter.cancelDiscovery();
             scanButton.setEnabled(false);
             sendData.setEnabled(true);
+        } else {
+            bluetoothProcess();
         }
+    }
+
+    private void updateSS() {
+        signalStrength.setEnabled(true);
+        signalStrength.setText("Strength: "+measurements.toString());
     }
 
     private void setupBluetoothAdapter() {
@@ -173,7 +202,10 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
 
     private void bluetoothProcess() {
-        if(blAdapter.isDiscovering()){
+        updateSS();
+        lastSeen = System.currentTimeMillis();
+
+        /*if(blAdapter.isDiscovering()){
             blAdapter.cancelDiscovery();
         }
 
@@ -181,7 +213,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
         if(!success) {
             (Toast.makeText(getApplicationContext(), "BL Scan did not start", Toast.LENGTH_SHORT )).show();
-        }
+        }*/
     }
 
 }
