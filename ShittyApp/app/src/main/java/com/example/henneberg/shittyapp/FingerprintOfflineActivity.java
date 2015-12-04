@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.henneberg.shittyapp.Util.AppConstants;
+import com.example.henneberg.shittyapp.Util.ServerCommunication;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -33,6 +39,8 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
     TextView signalStrength;
     Button sendData;
+
+    TextView tvServerResponse;
 
     BluetoothAdapter blAdapter;
     int REQUEST_ENABLE_BT = 5;
@@ -51,6 +59,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if(device.getAddress().equalsIgnoreCase(AppConstants.BRACELET_ADDRESS)) {
                     addMeasurement(RSSI);
+                    bluetoothProcess();
                 }
 
 
@@ -99,6 +108,8 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             }
         });
 
+        tvServerResponse = (TextView) findViewById(R.id.tvServerResponse);
+
         setupBluetoothAdapter();
 
         registerReceiver(blReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
@@ -107,7 +118,19 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
     }
 
     private void sendDataToServer() {
-        Toast.makeText(getApplicationContext(), "MOCK SEND: "+measurements.toString(), Toast.LENGTH_SHORT).show();
+        try {
+            ServerCommunication sc = new ServerCommunication(AppConstants.getServerAddress(), tvServerResponse);
+            JSONObject obj = new JSONObject();
+            obj.put("values", measurements);
+            obj.put("placeID", Integer.valueOf(braceletLoc.getText().toString()));
+            obj.put("phoneID", Integer.valueOf(phoneName.getText().toString()));
+
+            sc.sendPost(obj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //Toast.makeText(getApplicationContext(), "MOCK SEND: "+measurements.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void addMeasurement(Short RSSI) {
