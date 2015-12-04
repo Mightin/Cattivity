@@ -57,12 +57,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             discoveries++;
 
 
-            if ((System.currentTimeMillis() - lastSeen) > 10000) {
-                addMeasurement((short) -110);
-                lastSeen = System.currentTimeMillis();
-                notifySlow();
-                bluetoothProcess();
-            }
+
 
             String action = intent.getAction();
             // When discovery finds a device
@@ -82,10 +77,18 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 if(measurements.size() == goalMeasures) {
                     Toast.makeText(getApplicationContext(), "Scan finished", Toast.LENGTH_SHORT).show();
-                    scanButton.setText("SCAN FOR BRACELET");
+                    scanButton.setText("DONE");
                 } else {
                     blAdapter.startDiscovery();
                 }
+            }
+
+            if ((System.currentTimeMillis() - lastSeen) > 120000) {
+                notifySlow();
+                for(int i = measurements.size(); i < goalMeasures-1; i++) {
+                    measurements.add((short) -110);
+                }
+                addMeasurement((short) -110);
             }
         }
     };
@@ -110,10 +113,6 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
                 goalMeasures = Integer.parseInt(noOfMeasurements.getText().toString());
                 updateSS();
                 lastSeen = System.currentTimeMillis();
-
-                if(blAdapter.isDiscovering()){
-                    blAdapter.cancelDiscovery();
-                }
 
                 boolean success = blAdapter.startDiscovery();
 
@@ -177,7 +176,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             scanButton.setEnabled(false);
             sendData.setEnabled(true);
         } else {
-            bluetoothProcess();
+            //blAdapter.cancelDiscovery();
         }
     }
 
