@@ -124,21 +124,21 @@ public class ServerCommunication {
 
     public void sendPost(JSONObject obj) {
         try {
-            String encodedParams = URLEncoder.encode(obj.toString(), "UTF-8");
-
+            String data = obj.toString();
+            //String encodedParams = URLEncoder.encode(data, "UTF-8");
+            String encodedParams = data;
 
             URL u = new URL(serverURL+"/fingerprint/");
             HttpURLConnection conn = (HttpURLConnection) u.openConnection();
             //URLConnection conn = u.openConnection();
             debug("Connecting to: " + u.toString());
-            debug("With parameters: " + obj.toString());
+            debug("With parameters: " + data);
 
-
-
+            conn.setDoInput(true);
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             conn.setReadTimeout(10000);
-            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             conn.setRequestProperty("Content-Length", String.valueOf(encodedParams.length()));
 
             debug("Writing encoded params to server with POST");
@@ -159,6 +159,7 @@ public class ServerCommunication {
                 result += s + System.getProperty("line.separator");
             }
             debug(result);
+            debug("------- CONNECTION DONE");
 
 
         } catch (UnsupportedEncodingException e) {
