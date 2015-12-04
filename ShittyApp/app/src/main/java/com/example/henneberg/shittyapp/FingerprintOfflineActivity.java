@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.henneberg.shittyapp.Util.AppConstants;
 import com.example.henneberg.shittyapp.Util.ServerCommunication;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -121,7 +122,8 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
         try {
             ServerCommunication sc = new ServerCommunication(AppConstants.getServerAddress(), tvServerResponse);
             JSONObject obj = new JSONObject();
-            obj.put("values", measurements);
+
+            obj.put("values", new JSONArray(measurements));
             obj.put("placeID", Integer.valueOf(braceletLoc.getText().toString()));
             obj.put("phoneID", Integer.valueOf(phoneName.getText().toString()));
 

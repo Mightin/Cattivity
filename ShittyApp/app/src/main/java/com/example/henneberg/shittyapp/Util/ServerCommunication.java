@@ -2,6 +2,9 @@ package com.example.henneberg.shittyapp.Util;
 
 import android.widget.TextView;
 
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -13,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 
 /**
@@ -23,8 +27,8 @@ public class ServerCommunication {
     TextView debugtv;
     private final String serverURL;
 
-    public ServerCommunication(String IP, TextView debugtv) {
-        serverURL = "http://"+IP+"/";
+    public ServerCommunication(String addr, TextView debugtv) {
+        serverURL = "http://"+addr;
         this.debugtv = debugtv;
     }
 
@@ -122,13 +126,18 @@ public class ServerCommunication {
         try {
             String encodedParams = URLEncoder.encode(obj.toString(), "UTF-8");
 
-            URL u = new URL(serverURL+"/fingerprint");
+
+            URL u = new URL(serverURL+"/fingerprint/");
             HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+            //URLConnection conn = u.openConnection();
             debug("Connecting to: " + u.toString());
-            debug("With parameters: " + encodedParams);
+            debug("With parameters: " + obj.toString());
+
+
 
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
+            conn.setReadTimeout(10000);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Content-Length", String.valueOf(encodedParams.length()));
 
@@ -136,7 +145,9 @@ public class ServerCommunication {
             OutputStream os = conn.getOutputStream();
             os.write(encodedParams.getBytes());
             os.flush();
-            os.close();
+            //os.close();
+
+            conn.connect();
 
             debug("Preparing to read response from " + conn.getURL().toString());
             BufferedReader response = new BufferedReader(new InputStreamReader(
@@ -166,6 +177,7 @@ public class ServerCommunication {
         if(debugtv != null) {
             debugtv.append(txt + "\n");
         }
+        System.out.println(txt);
     }
 
 }

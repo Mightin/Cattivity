@@ -22,7 +22,7 @@ public class AppConstants extends AppCompatActivity {
     private static final String _phoneName = "PhoneName";
 
     // VALUES for Preferences
-    private static String SERVER_ADDRESS = "192.168.0.1:8080";
+    private static String SERVER_ADDRESS = "95.85.2.220:8080";
     private static String PHONE_NAME = "D046??";
 
 
