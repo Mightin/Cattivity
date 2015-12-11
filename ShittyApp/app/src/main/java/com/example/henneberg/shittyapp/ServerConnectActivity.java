@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.henneberg.shittyapp.Util.AppConstants;
 import com.example.henneberg.shittyapp.Util.ServerCommunication;
 
 public class ServerConnectActivity extends AppCompatActivity {
@@ -26,6 +27,7 @@ public class ServerConnectActivity extends AppCompatActivity {
         debug.setMovementMethod(new ScrollingMovementMethod());
         connectButton = (Button) findViewById(R.id.connectButton);
         IP = (EditText) findViewById(R.id.serverAddr);
+        IP.setText(AppConstants.getServerAddress());
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override

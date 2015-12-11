@@ -9,21 +9,24 @@ import android.support.v7.app.AppCompatActivity;
  */
 public class AppConstants extends AppCompatActivity {
 
+    public static final String BRACELET_ADDRESS = "DD:7D:B3:58:CA:98";
+
     private static AppConstants INSTANCE;
     private static Context CONTEXT;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
 
-    public static final String PREFSNAME = "CattivityPreferences";
-    public static final String BRACELET_ADDRESS = "DD:7D:B3:58:CA:98";
+    private static final String PREFSNAME = "CattivityPreferences";
 
     // KEYS for Preferences
     private static final String _serverAddress = "ServerAddress";
     private static final String _phoneName = "PhoneName";
+    private static final String _fingRun = "FingerprintingRun";
 
     // VALUES for Preferences
     private static String SERVER_ADDRESS = "95.85.2.220:8080";
-    private static String PHONE_NAME = "D046??";
+    private static String PHONE_NAME = "-1";
+    private static int FINGERPRINTING_RUN = 2;
 
 
     private AppConstants() {
@@ -57,8 +60,8 @@ public class AppConstants extends AppCompatActivity {
         return getPrefs().getString(_phoneName, PHONE_NAME);
     }
 
-    private static void commitChanges() {
-        getEditor().commit();
+    public static int getFingerprintingRun() {
+        return getPrefs().getInt(_fingRun, FINGERPRINTING_RUN);
     }
 
 
@@ -77,8 +80,18 @@ public class AppConstants extends AppCompatActivity {
         commitChanges();
     }
 
+    public static void setFingerprintingRun(int run) {
+        getEditor().putInt(_fingRun, run);
+        FINGERPRINTING_RUN = run;
+
+        commitChanges();
+    }
 
 
+
+    private static void commitChanges() {
+        getEditor().commit();
+    }
 
 
 

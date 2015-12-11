@@ -15,6 +15,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     EditText edServerAddr;
     EditText edPhoneName;
+    EditText edFingRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         edServerAddr = (EditText) findViewById(R.id.edServerAddr);
         edPhoneName = (EditText) findViewById(R.id.edPhoneName);
+        edFingRun = (EditText) findViewById(R.id.edFingRun);
         loadCurrentSettings();
 
         saveButton = (Button) findViewById(R.id.saveButton);
@@ -39,11 +41,13 @@ public class SettingsActivity extends AppCompatActivity {
     private void loadCurrentSettings() {
         edServerAddr.setText(AppConstants.getServerAddress());
         edPhoneName.setText(AppConstants.getPhoneName());
+        edFingRun.setText(""+AppConstants.getFingerprintingRun());
     }
 
     private void saveNewSettings() {
         AppConstants.setServerAddress(edServerAddr.getText().toString());
         AppConstants.setPhoneName(edPhoneName.getText().toString());
+        AppConstants.setFingerprintingRun(Integer.parseInt(edFingRun.getText().toString()));
         (Toast.makeText(getApplicationContext(), "Settings saved", Toast.LENGTH_SHORT)).show();
     }
 

@@ -141,7 +141,7 @@ public class ServerCommunication {
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             conn.setRequestProperty("Content-Length", String.valueOf(encodedParams.length()));
 
-            debug("Writing encoded params to server with POST");
+            debug("Writing params to server with POST");
             OutputStream os = conn.getOutputStream();
             os.write(encodedParams.getBytes());
             os.flush();

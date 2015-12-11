@@ -31,12 +31,15 @@ import java.util.Set;
 
 public class FingerprintOfflineActivity extends AppCompatActivity {
 
+    private long MAXWAIT = 90000;
+
     private ArrayList<Short> measurements;
     private int goalMeasures;
 
     EditText braceletLoc;
     EditText phoneName;
     EditText noOfMeasurements;
+    EditText noFingRun;
     Button scanButton;
 
     TextView signalStrength;
@@ -83,7 +86,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
                 }
             }
 
-            if ((System.currentTimeMillis() - lastSeen) > 120000) {
+            if ((System.currentTimeMillis() - lastSeen) > MAXWAIT) {
                 notifySlow();
                 for(int i = measurements.size(); i < goalMeasures-1; i++) {
                     measurements.add((short) -110);
@@ -105,6 +108,10 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
         braceletLoc = (EditText) findViewById(R.id.braceletLocation);
         phoneName = (EditText) findViewById(R.id.phoneName);
         noOfMeasurements = (EditText) findViewById(R.id.noOfMeasurements);
+        noFingRun = (EditText) findViewById(R.id.noFingRun);
+
+        phoneName.setText(AppConstants.getPhoneName());
+        noFingRun.setText(""+AppConstants.getFingerprintingRun());
 
         scanButton = (Button) findViewById(R.id.scanForBracelet);
         scanButton.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +163,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             obj.put("values", new JSONArray(measurements));
             obj.put("placeID", Integer.valueOf(braceletLoc.getText().toString()));
             obj.put("phoneID", Integer.valueOf(phoneName.getText().toString()));
+            obj.put("run", Integer.valueOf(noFingRun.getText().toString()));
 
             sc.sendPost(obj);
         } catch (JSONException e) {
