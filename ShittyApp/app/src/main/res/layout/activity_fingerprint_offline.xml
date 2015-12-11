@@ -107,7 +107,7 @@
                 android:layout_below="@+id/textView5"
                 android:layout_alignLeft="@+id/textView5"
                 android:layout_alignStart="@+id/textView5"
-                android:text="5"
+                android:text="7"
                 android:layout_alignRight="@+id/textView5"
                 android:layout_alignEnd="@+id/textView5"
                 android:layout_width="0dp"
