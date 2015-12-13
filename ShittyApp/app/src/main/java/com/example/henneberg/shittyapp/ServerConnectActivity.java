@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.henneberg.shittyapp.Util.AppConstants;
-import com.example.henneberg.shittyapp.Util.ServerCommunication;
+import com.example.henneberg.shittyapp.Util.ServerCommunicationImpl;
 
 public class ServerConnectActivity extends AppCompatActivity {
 
@@ -32,7 +32,7 @@ public class ServerConnectActivity extends AppCompatActivity {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ServerCommunication sc = new ServerCommunication(IP.getText().toString(), debug);
+                ServerCommunicationImpl sc = new ServerCommunicationImpl(IP.getText().toString(), debug);
                 sc.attemptConnection();
             }
         });

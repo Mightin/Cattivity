@@ -9,14 +9,19 @@ import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.henneberg.shittyapp.Util.AppConstants;
+import com.example.henneberg.shittyapp.Util.FakeServerCommunication;
 import com.example.henneberg.shittyapp.Util.ServerCommunication;
+import com.example.henneberg.shittyapp.Util.ServerCommunicationImpl;
 
 import org.json.JSONObject;
 
@@ -50,7 +55,6 @@ public class ExperimentActivity extends AppCompatActivity {
                 if(paused) {
                     debug("#### Bluetooth scans stopping.");
                 } else {
-                    scans = 0;
                     blAdapter.startDiscovery();
                 }
             }
@@ -61,9 +65,16 @@ public class ExperimentActivity extends AppCompatActivity {
         }
     };
 
+
+
     TextView tvBluetooth, tvOutput, tvServer;
     Button btRestart;
+    Spinner spServerComm;
     Switch swEServer;
+
+    private final ServerCommunication scImpl = new ServerCommunicationImpl(AppConstants.getServerAddress(), tvServer);
+    private final ServerCommunication scFake = new FakeServerCommunication(tvServer);
+    private final String[] serverComms = {scImpl.getName(), scFake.getName()};
 
     ServerCommunication serverComm;
 
@@ -93,7 +104,19 @@ public class ExperimentActivity extends AppCompatActivity {
             }
         });
 
-        serverComm = new ServerCommunication(AppConstants.getServerAddress(), tvServer);
+        spServerComm = (Spinner) findViewById(R.id.spEServComm);
+        spServerComm.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, serverComms));
+        spServerComm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setServerComm(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        serverComm = new ServerCommunicationImpl(AppConstants.getServerAddress(), tvServer);
 
         setupBluetoothAdapter();
         registerReceiver(blReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
@@ -102,6 +125,8 @@ public class ExperimentActivity extends AppCompatActivity {
 
         startScans();
     }
+
+
 
     private void startScans() {
         btRestart.setEnabled(false);
@@ -136,24 +161,41 @@ public class ExperimentActivity extends AppCompatActivity {
     }
 
     private void stopScans() {
-        debug("Device NOT seen in "+MAX_TIME_BEFORE_EXIT+"ms. Stopping scans.");
+        debug("#### Device NOT seen in "+MAX_TIME_BEFORE_EXIT+"ms. Stopping scans.");
         paused = true;
 
         tvBluetooth.setText("Paused");
         btRestart.setText("Restart scans");
         btRestart.setEnabled(true);
-
     }
 
 
 
 
     private void sendMeasurement(Short RSSI) {
+        scans = 0;
         long timestamp = System.currentTimeMillis();
 
         JSONObject obj = AppConstants.createJSON_Experiment(timestamp, RSSI);
 
         serverComm.sendPost(obj, AppConstants.EXPERIMENT_PATH);
+    }
+
+
+
+
+    private void setServerComm(int position) {
+        switch(position) {
+            case 0:
+                serverComm = scImpl;
+                break;
+            case 1:
+                serverComm = scFake;
+                break;
+            default:
+                serverComm = scFake;
+                break;
+        }
     }
 
     private void setDevMode(boolean isChecked) {

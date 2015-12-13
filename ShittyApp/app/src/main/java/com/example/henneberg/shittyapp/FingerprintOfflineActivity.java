@@ -6,28 +6,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.URLUtil;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.henneberg.shittyapp.Util.AppConstants;
-import com.example.henneberg.shittyapp.Util.ServerCommunication;
+import com.example.henneberg.shittyapp.Util.ServerCommunicationImpl;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class FingerprintOfflineActivity extends AppCompatActivity {
 
@@ -150,7 +144,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
     private void sendDataToServer() {
         try {
-            ServerCommunication sc = new ServerCommunication(AppConstants.getServerAddress(), tvServerResponse);
+            ServerCommunicationImpl sc = new ServerCommunicationImpl(AppConstants.getServerAddress(), tvServerResponse);
             JSONObject obj = new JSONObject();
 
             obj.put("values", new JSONArray(measurements));

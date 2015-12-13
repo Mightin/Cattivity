@@ -11,10 +11,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvEBluetooth"
-        android:text="asasdasd"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start scans"
+        android:id="@+id/btERestart"
+        android:enabled="true"
+        android:layout_below="@+id/tvEBluetooth"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spEServComm"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/btERestart"
+        android:layout_toEndOf="@+id/btERestart" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,16 +55,6 @@
         android:layout_below="@id/tvEOutput"
         android:id="@+id/view" />
 
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show server output"
-        android:id="@+id/swEServer"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:checked="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,14 +66,14 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
+    <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start scans"
-        android:id="@+id/btERestart"
-        android:layout_alignParentTop="true"
+        android:text="Show server output"
+        android:id="@+id/swEServer"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:enabled="true" />
+        android:checked="true" />
 
 </RelativeLayout>
