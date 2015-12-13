@@ -27,14 +27,18 @@ public class AppConstants extends AppCompatActivity {
 
     // KEYS for Preferences
     private static final String _serverAddress = "ServerAddress";
+    private static final String _serverLocalAddress = "ServerLocalAddress";
     private static final String _phoneName = "PhoneName";
     private static final String _fingRun = "FingerprintingRun";
+    private static final String _expRun = "ExperimentRun";
     private static final String _maxTimeDiscovery = "MaxTimeDiscovery";
 
     // VALUES for Preferences
     private static String SERVER_ADDRESS = "95.85.2.220:8080";
+    private static String SERVER_LOCAL_ADDRESS = "192.168.1.1000000:8080";
     private static String PHONE_NAME = "-1";
-    private static int FINGERPRINTING_RUN = 2;
+    private static int FINGERPRINTING_RUN = 3;
+    private static int EXPERIMENT_RUN = 1;
     private static long MAXTIME = 25000;
 
 
@@ -65,12 +69,20 @@ public class AppConstants extends AppCompatActivity {
         return getPrefs().getString(_serverAddress, SERVER_ADDRESS);
     }
 
+    public static String getServerLocalAddress() {
+        return getPrefs().getString(_serverLocalAddress, SERVER_LOCAL_ADDRESS);
+    }
+
     public static String getPhoneName() {
         return getPrefs().getString(_phoneName, PHONE_NAME);
     }
 
     public static int getFingerprintingRun() {
         return getPrefs().getInt(_fingRun, FINGERPRINTING_RUN);
+    }
+
+    public static int getExperimentRun() {
+        return getPrefs().getInt(_expRun, EXPERIMENT_RUN);
     }
 
     public static long getMaxTime() {
@@ -86,6 +98,13 @@ public class AppConstants extends AppCompatActivity {
         commitChanges();
     }
 
+    public static void setServerLocalAddress(String addr) {
+        getEditor().putString(_serverLocalAddress, addr);
+        SERVER_LOCAL_ADDRESS = addr;
+
+        commitChanges();
+    }
+
     public static void setPhoneName(String name) {
         getEditor().putString(_phoneName, name);
         PHONE_NAME = name;
@@ -96,6 +115,13 @@ public class AppConstants extends AppCompatActivity {
     public static void setFingerprintingRun(int run) {
         getEditor().putInt(_fingRun, run);
         FINGERPRINTING_RUN = run;
+
+        commitChanges();
+    }
+
+    public static void setExperimentRun(int run) {
+        getEditor().putInt(_expRun, run);
+        EXPERIMENT_RUN = run;
 
         commitChanges();
     }
@@ -120,6 +146,10 @@ public class AppConstants extends AppCompatActivity {
         try {
             obj.put("timestamp", timestamp);
             obj.put("value", RSSI);
+            obj.put("phonenumber", Integer.parseInt(getPhoneName()));
+            obj.put("run", getExperimentRun());
+            //Phone ID, number
+            //Run (experiment run), number
         } catch (JSONException e) {
             e.printStackTrace();
         }

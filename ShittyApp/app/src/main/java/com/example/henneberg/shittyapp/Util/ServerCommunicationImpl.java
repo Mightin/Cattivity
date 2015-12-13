@@ -32,10 +32,6 @@ public class ServerCommunicationImpl implements ServerCommunication {
         this.debugtv = debugtv;
     }
 
-    public String getName() {
-        return "Real Server Comm.";
-    }
-
     public void sendPost(JSONObject obj, String subPath) {
         try {
             String data = obj.toString();
@@ -73,19 +69,14 @@ public class ServerCommunicationImpl implements ServerCommunication {
                 result += s + System.getProperty("line.separator");
             }
             debug(result);
-            debug("------- CONNECTION DONE");
 
 
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            debug(e.getMessage());
         }
 
+        debug("------- CONNECTION DONE");
     }
 
     private void debug(String txt) {

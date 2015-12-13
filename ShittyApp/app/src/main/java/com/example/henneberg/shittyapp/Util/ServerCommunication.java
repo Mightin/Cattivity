@@ -8,6 +8,4 @@ import org.json.JSONObject;
 public interface ServerCommunication {
 
     void sendPost(JSONObject obj, String subpath);
-
-    String getName();
 }

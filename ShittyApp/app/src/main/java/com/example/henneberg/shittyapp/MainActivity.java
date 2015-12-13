@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     Button bluetoothButton;
     Button serverCommButton;
     Button fingerprintOfflineButton;
+    Button btExp;
+
     Button butSettings;
 
     @Override
@@ -65,6 +67,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent fingerprintOffline = new Intent(getApplicationContext(), FingerprintOfflineActivity.class);
                 startActivity(fingerprintOffline);
+            }
+        });
+
+        btExp = (Button) findViewById(R.id.btMExp);
+        btExp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent exp = new Intent(getApplicationContext(), ExperimentActivity.class);
+                startActivity(exp);
             }
         });
 

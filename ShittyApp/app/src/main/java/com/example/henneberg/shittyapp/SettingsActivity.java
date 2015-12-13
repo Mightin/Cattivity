@@ -14,8 +14,10 @@ public class SettingsActivity extends AppCompatActivity {
     Button saveButton;
 
     EditText edServerAddr;
+    EditText edServerLocalAddr;
     EditText edPhoneName;
     EditText edFingRun;
+    EditText edExpRun;
     EditText edMaxTime;
 
     @Override
@@ -24,8 +26,11 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         edServerAddr = (EditText) findViewById(R.id.edServerAddr);
+        edServerLocalAddr = (EditText) findViewById(R.id.edSServerLocAddr);
+
         edPhoneName = (EditText) findViewById(R.id.edPhoneName);
         edFingRun = (EditText) findViewById(R.id.edFingRun);
+        edExpRun = (EditText) findViewById(R.id.edSExpRun);
         edMaxTime = (EditText) findViewById(R.id.edMaxTime);
         loadCurrentSettings();
 
@@ -42,15 +47,21 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void loadCurrentSettings() {
         edServerAddr.setText(AppConstants.getServerAddress());
+        edServerLocalAddr.setText(AppConstants.getServerLocalAddress());
+
         edPhoneName.setText(AppConstants.getPhoneName());
         edFingRun.setText(""+AppConstants.getFingerprintingRun());
+        edExpRun.setText(""+AppConstants.getExperimentRun());
         edMaxTime.setText(""+AppConstants.getMaxTime());
     }
 
     private void saveNewSettings() {
         AppConstants.setServerAddress(edServerAddr.getText().toString());
+        AppConstants.setServerLocalAddress(edServerLocalAddr.getText().toString());
+
         AppConstants.setPhoneName(edPhoneName.getText().toString());
         AppConstants.setFingerprintingRun(Integer.parseInt(edFingRun.getText().toString()));
+        AppConstants.setExperimentRun(Integer.parseInt(edExpRun.getText().toString()));
         AppConstants.setMaxTime(Long.parseLong(edMaxTime.getText().toString()));
 
         (Toast.makeText(getApplicationContext(), "Settings saved", Toast.LENGTH_SHORT)).show();

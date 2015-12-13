@@ -29,9 +29,4 @@ public class FakeServerCommunication implements ServerCommunication {
         }
         System.out.println(txt);
     }
-
-    @Override
-    public String getName() {
-        return "Fake Server Comm.";
-    }
 }
