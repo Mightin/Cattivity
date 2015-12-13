@@ -49,18 +49,11 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
     long lastSeen;
 
-
     BluetoothAdapter blAdapter;
-    int REQUEST_ENABLE_BT = 5;
 
-    private int discoveries = 0;
     private int scans = 0;
     private final BroadcastReceiver blReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            discoveries++;
-
-
-
 
             String action = intent.getAction();
             // When discovery finds a device
@@ -165,7 +158,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             obj.put("phoneID", Integer.valueOf(phoneName.getText().toString()));
             obj.put("run", Integer.valueOf(noFingRun.getText().toString()));
 
-            sc.sendPost(obj);
+            sc.sendPost(obj, AppConstants.FINGERPRINT_PATH);
         } catch (JSONException e) {
             e.printStackTrace();
         }

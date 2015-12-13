@@ -32,6 +32,68 @@ public class ServerCommunication {
         this.debugtv = debugtv;
     }
 
+    public void sendPost(JSONObject obj, String subPath) {
+        try {
+            String data = obj.toString();
+            //String encodedParams = URLEncoder.encode(data, "UTF-8");
+            String encodedParams = data;
+
+            URL u = new URL(serverURL+subPath);
+            HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+            //URLConnection conn = u.openConnection();
+            debug("Connecting to: " + u.toString());
+            debug("With parameters: " + data);
+
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setReadTimeout(10000);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setRequestProperty("Content-Length", String.valueOf(encodedParams.length()));
+
+            //debug("Writing params to server with POST");
+            OutputStream os = conn.getOutputStream();
+            os.write(encodedParams.getBytes());
+            os.flush();
+            //os.close();
+
+            conn.connect();
+
+            //debug("Preparing to read response from " + conn.getURL().toString());
+            BufferedReader response = new BufferedReader(new InputStreamReader(
+                    conn.getInputStream()));
+
+            String s = "";
+            String result = "";
+            while((s = response.readLine()) != null) {
+                result += s + System.getProperty("line.separator");
+            }
+            debug(result);
+            debug("------- CONNECTION DONE");
+
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void debug(String txt) {
+        if(debugtv != null) {
+            debugtv.append(txt + "\n");
+        }
+        System.out.println(txt);
+    }
+
+
+
+
     public void attemptConnection() {
         try {
 
@@ -62,13 +124,13 @@ public class ServerCommunication {
             //debug("Malformed: "+e);
         } catch (IOException e) {
             e.printStackTrace();
-            debug("IOException: "+e);
+            debug("IOException: " + e);
         }
 
         debug("------------------------------------------------");
     }
 
-    public void sendPost(String[] parameterNames, String[] parameterValues) {
+    public void sendPostWithParams(String[] parameterNames, String[] parameterValues) {
         try {
             String data = "";
             if (parameterNames.length != parameterValues.length) {
@@ -120,65 +182,6 @@ public class ServerCommunication {
             e.printStackTrace();
         }
 
-    }
-
-    public void sendPost(JSONObject obj) {
-        try {
-            String data = obj.toString();
-            //String encodedParams = URLEncoder.encode(data, "UTF-8");
-            String encodedParams = data;
-
-            URL u = new URL(serverURL+"/fingerprint/");
-            HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-            //URLConnection conn = u.openConnection();
-            debug("Connecting to: " + u.toString());
-            debug("With parameters: " + data);
-
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            conn.setReadTimeout(10000);
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setRequestProperty("Content-Length", String.valueOf(encodedParams.length()));
-
-            debug("Writing params to server with POST");
-            OutputStream os = conn.getOutputStream();
-            os.write(encodedParams.getBytes());
-            os.flush();
-            //os.close();
-
-            conn.connect();
-
-            debug("Preparing to read response from " + conn.getURL().toString());
-            BufferedReader response = new BufferedReader(new InputStreamReader(
-                    conn.getInputStream()));
-
-            String s = "";
-            String result = "";
-            while((s = response.readLine()) != null) {
-                result += s + System.getProperty("line.separator");
-            }
-            debug(result);
-            debug("------- CONNECTION DONE");
-
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void debug(String txt) {
-        if(debugtv != null) {
-            debugtv.append(txt + "\n");
-        }
-        System.out.println(txt);
     }
 
 }
