@@ -144,9 +144,9 @@ public class AppConstants extends AppCompatActivity {
         JSONObject obj = new JSONObject();
 
         try {
-            obj.put("timestamp", timestamp);
-            obj.put("value", RSSI);
-            obj.put("phonenumber", Integer.parseInt(getPhoneName()));
+            obj.put("value", (int) RSSI);
+            obj.put("phoneID", Integer.parseInt(getPhoneName()));
+            obj.put("time", timestamp);
             obj.put("run", getExperimentRun());
             //Phone ID, number
             //Run (experiment run), number
