@@ -152,7 +152,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             obj.put("phoneID", Integer.valueOf(phoneName.getText().toString()));
             obj.put("run", Integer.valueOf(noFingRun.getText().toString()));
 
-            sc.sendPost(obj, AppConstants.FINGERPRINT_PATH);
+            sc.sendPost(obj, AppConstants.BASELINE_PATH);
         } catch (JSONException e) {
             e.printStackTrace();
         }

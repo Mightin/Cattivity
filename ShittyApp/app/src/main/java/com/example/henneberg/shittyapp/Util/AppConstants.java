@@ -14,6 +14,7 @@ public class AppConstants extends AppCompatActivity {
 
     public static final String BRACELET_ADDRESS = "DD:7D:B3:58:CA:98";
 
+    public static final String BASELINE_PATH = "/baseline/";
     public static final String FINGERPRINT_PATH = "/fingerprint/";
     public static final String EXPERIMENT_PATH = "/experiment/";
 
