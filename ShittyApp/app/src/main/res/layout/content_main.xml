@@ -65,7 +65,17 @@
         android:layout_height="wrap_content"
         android:text="Run Experiment"
         android:id="@+id/btMExp"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/btBaseline"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Baseline (OFFLINE)"
+        android:id="@+id/btBaseline"
+        android:layout_below="@+id/fingerprintOfflineButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

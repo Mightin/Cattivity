@@ -23,14 +23,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class FingerprintOfflineActivity extends AppCompatActivity {
+public class BaselineActivity extends AppCompatActivity {
 
     private long MAXWAIT = 90000;
 
     private ArrayList<Short> measurements;
     private int goalMeasures;
 
-    EditText braceletLoc;
+    EditText braceletX;
+    EditText braceletY;
     EditText phoneName;
     EditText noOfMeasurements;
     EditText noFingRun;
@@ -63,7 +64,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
             } else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
                 scans++;
-                scanButton.setText("SCANNING ("+scans+")...");
+                scanButton.setText("SCANNING ("+scans+")... "+measurements.size());
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 if(measurements.size() == goalMeasures) {
                     Toast.makeText(getApplicationContext(), "Scan finished", Toast.LENGTH_SHORT).show();
@@ -88,19 +89,20 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fingerprint_offline);
+        setContentView(R.layout.activity_baseline);
 
         measurements = new ArrayList<Short>();
 
-        braceletLoc = (EditText) findViewById(R.id.braceletLocation);
-        phoneName = (EditText) findViewById(R.id.phoneName);
-        noOfMeasurements = (EditText) findViewById(R.id.noOfMeasurements);
-        noFingRun = (EditText) findViewById(R.id.noFingRun);
+        braceletX = (EditText) findViewById(R.id.BxCoord);
+        braceletY = (EditText) findViewById(R.id.ByCoord);
+        phoneName = (EditText) findViewById(R.id.BphoneName);
+        noOfMeasurements = (EditText) findViewById(R.id.BnoOfMeasurements);
+        noFingRun = (EditText) findViewById(R.id.BnoFingRun);
 
         phoneName.setText(AppConstants.getPhoneName());
         noFingRun.setText(""+AppConstants.getFingerprintingRun());
 
-        scanButton = (Button) findViewById(R.id.scanForBracelet);
+        scanButton = (Button) findViewById(R.id.BscanForBracelet);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,9 +118,9 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             }
         });
 
-        signalStrength = (TextView) findViewById(R.id.signalStrength);
+        signalStrength = (TextView) findViewById(R.id.BsignalStrength);
 
-        sendData = (Button) findViewById(R.id.sendDataButton);
+        sendData = (Button) findViewById(R.id.BsendDataButton);
         sendData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +128,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             }
         });
 
-        tvServerResponse = (TextView) findViewById(R.id.tvServerResponse);
+        tvServerResponse = (TextView) findViewById(R.id.BtvServerResponse);
 
         setupBluetoothAdapter();
 
@@ -148,11 +150,12 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             JSONObject obj = new JSONObject();
 
             obj.put("values", new JSONArray(measurements));
-            obj.put("placeID", Integer.valueOf(braceletLoc.getText().toString()));
+            obj.put("x", Integer.valueOf(braceletX.getText().toString()));
+            obj.put("y", Integer.valueOf(braceletY.getText().toString()));
             obj.put("phoneID", Integer.valueOf(phoneName.getText().toString()));
             obj.put("run", Integer.valueOf(noFingRun.getText().toString()));
 
-            sc.sendPost(obj, AppConstants.FINGERPRINT_PATH);
+            sc.sendPost(obj, AppConstants.BASELINE_PATH);
         } catch (JSONException e) {
             e.printStackTrace();
         }
