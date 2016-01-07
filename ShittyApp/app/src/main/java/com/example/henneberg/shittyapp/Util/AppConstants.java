@@ -30,7 +30,11 @@ public class AppConstants extends AppCompatActivity {
     private static final String _serverAddress = "ServerAddress";
     private static final String _serverLocalAddress = "ServerLocalAddress";
     private static final String _phoneName = "PhoneName";
+
     private static final String _fingRun = "FingerprintingRun";
+    private static final String _noOfMeasurements = "NoOfMeasurements";
+    private static final String _setupUsed = "SetupUsed";
+
     private static final String _expRun = "ExperimentRun";
     private static final String _maxTimeDiscovery = "MaxTimeDiscovery";
 
@@ -38,7 +42,11 @@ public class AppConstants extends AppCompatActivity {
     private static String SERVER_ADDRESS = "95.85.2.220:8080";
     private static String SERVER_LOCAL_ADDRESS = "192.168.1.1000000:8080";
     private static String PHONE_NAME = "-1";
+
     private static int FINGERPRINTING_RUN = 3;
+    private static int NO_OF_MEASUREMENTS = 7;
+    private static int SETUP_USED = 1;
+
     private static int EXPERIMENT_RUN = 1;
     private static long MAXTIME = 25000;
 
@@ -66,6 +74,9 @@ public class AppConstants extends AppCompatActivity {
 
 
 
+
+    // GETTERS
+
     public static String getServerAddress() {
         return getPrefs().getString(_serverAddress, SERVER_ADDRESS);
     }
@@ -78,9 +89,20 @@ public class AppConstants extends AppCompatActivity {
         return getPrefs().getString(_phoneName, PHONE_NAME);
     }
 
+
+
     public static int getFingerprintingRun() {
         return getPrefs().getInt(_fingRun, FINGERPRINTING_RUN);
     }
+
+    public static int getNoOfMeasurements() {
+        return getPrefs().getInt(_noOfMeasurements, NO_OF_MEASUREMENTS);
+    }
+
+    public static int getSetupUsed() {
+        return getPrefs().getInt(_setupUsed, SETUP_USED);
+    }
+
 
     public static int getExperimentRun() {
         return getPrefs().getInt(_expRun, EXPERIMENT_RUN);
@@ -91,6 +113,7 @@ public class AppConstants extends AppCompatActivity {
     }
 
 
+    /// SETTERS
 
     public static void setServerAddress(String addr) {
         getEditor().putString(_serverAddress, addr);
@@ -113,12 +136,29 @@ public class AppConstants extends AppCompatActivity {
         commitChanges();
     }
 
+
+
     public static void setFingerprintingRun(int run) {
         getEditor().putInt(_fingRun, run);
         FINGERPRINTING_RUN = run;
 
         commitChanges();
     }
+
+    public static void setNoOfMeasurements(int amount) {
+        getEditor().putInt(_noOfMeasurements, amount);
+        NO_OF_MEASUREMENTS = amount;
+
+        commitChanges();
+    }
+
+    public static void setSetupUsed(int setupID) {
+        getEditor().putInt(_setupUsed, setupID);
+        SETUP_USED = setupID;
+
+        commitChanges();
+    }
+
 
     public static void setExperimentRun(int run) {
         getEditor().putInt(_expRun, run);

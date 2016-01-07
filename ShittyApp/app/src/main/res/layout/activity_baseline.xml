@@ -106,6 +106,12 @@
                 android:id="@+id/BtextView6"
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Setup Used:"
+                android:layout_weight="1"/>
         </TableRow>
 
         <TableRow
@@ -120,7 +126,6 @@
                 android:layout_below="@+id/BtextView5"
                 android:layout_alignLeft="@+id/BtextView5"
                 android:layout_alignStart="@+id/BtextView5"
-                android:text="7"
                 android:layout_alignRight="@+id/BtextView5"
                 android:layout_alignEnd="@+id/BtextView5"
                 android:layout_width="0dp"
@@ -134,6 +139,14 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:enabled="true" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/BsetupUsed"
+                android:layout_weight="1"/>
         </TableRow>
 
     </TableLayout>

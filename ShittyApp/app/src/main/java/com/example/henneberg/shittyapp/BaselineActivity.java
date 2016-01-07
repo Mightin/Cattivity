@@ -35,6 +35,7 @@ public class BaselineActivity extends AppCompatActivity {
     EditText phoneName;
     EditText noOfMeasurements;
     EditText noFingRun;
+    EditText setupUsed;
     Button scanButton;
 
     TextView signalStrength;
@@ -98,9 +99,13 @@ public class BaselineActivity extends AppCompatActivity {
         phoneName = (EditText) findViewById(R.id.BphoneName);
         noOfMeasurements = (EditText) findViewById(R.id.BnoOfMeasurements);
         noFingRun = (EditText) findViewById(R.id.BnoFingRun);
+        setupUsed = (EditText) findViewById(R.id.BsetupUsed);
 
-        phoneName.setText(AppConstants.getPhoneName());
+        phoneName.setText(""+AppConstants.getPhoneName());
+        noOfMeasurements.setText(""+AppConstants.getNoOfMeasurements());
         noFingRun.setText(""+AppConstants.getFingerprintingRun());
+        setupUsed.setText(""+AppConstants.getSetupUsed());
+
 
         scanButton = (Button) findViewById(R.id.BscanForBracelet);
         scanButton.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +158,7 @@ public class BaselineActivity extends AppCompatActivity {
             obj.put("x", Integer.valueOf(braceletX.getText().toString()));
             obj.put("y", Integer.valueOf(braceletY.getText().toString()));
             obj.put("phoneID", Integer.valueOf(phoneName.getText().toString()));
+            obj.put("setupUsed", Integer.valueOf(setupUsed.getText().toString()));
             obj.put("run", Integer.valueOf(noFingRun.getText().toString()));
 
             sc.sendPost(obj, AppConstants.BASELINE_PATH);
