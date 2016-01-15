@@ -97,7 +97,8 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
         noOfMeasurements = (EditText) findViewById(R.id.noOfMeasurements);
         noFingRun = (EditText) findViewById(R.id.noFingRun);
 
-        phoneName.setText(AppConstants.getPhoneName());
+        phoneName.setText(""+AppConstants.getPhoneName());
+        noOfMeasurements.setText(""+AppConstants.getNoOfMeasurements());
         noFingRun.setText(""+AppConstants.getFingerprintingRun());
 
         scanButton = (Button) findViewById(R.id.scanForBracelet);
