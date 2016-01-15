@@ -134,14 +134,18 @@ public class ExperimentActivity extends AppCompatActivity {
     }
 
     private void startScans() {
-        btRestart.setEnabled(false);
-        spServerComm.setEnabled(false);
+        if(paused) {
+            btRestart.setText("PAUSE SCAN");
+            spServerComm.setEnabled(false);
 
-        paused = false;
-        lastSeenRound = System.currentTimeMillis();
-        lastSeenEver = lastSeenRound;
+            paused = false;
+            lastSeenRound = System.currentTimeMillis();
+            lastSeenEver = lastSeenRound;
 
-        blAdapter.startDiscovery();
+            blAdapter.startDiscovery();
+        } else {
+            stopScans();
+        }
     }
 
 
@@ -171,8 +175,8 @@ public class ExperimentActivity extends AppCompatActivity {
         paused = true;
 
         tvBluetooth.setText("Paused");
-        btRestart.setText("Restart scans");
-        btRestart.setEnabled(true);
+        btRestart.setText("START SCAN");
+        spServerComm.setEnabled(true);
     }
 
 

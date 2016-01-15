@@ -6,6 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -171,6 +174,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
             blAdapter.cancelDiscovery();
             scanButton.setEnabled(false);
             sendData.setEnabled(true);
+            soundBeep();
         } else {
             //blAdapter.cancelDiscovery();
         }
@@ -178,7 +182,7 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
 
     private void updateSS() {
         signalStrength.setEnabled(true);
-        signalStrength.setText("Strength: "+measurements.toString());
+        signalStrength.setText("Strength: " + measurements.toString());
     }
 
     private void setupBluetoothAdapter() {
@@ -209,6 +213,16 @@ public class FingerprintOfflineActivity extends AppCompatActivity {
         if(!success) {
             (Toast.makeText(getApplicationContext(), "BL Scan did not start", Toast.LENGTH_SHORT )).show();
         }*/
+    }
+
+    private void soundBeep() {
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

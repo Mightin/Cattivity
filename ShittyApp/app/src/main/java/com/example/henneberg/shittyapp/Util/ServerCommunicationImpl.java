@@ -36,7 +36,7 @@ public class ServerCommunicationImpl implements ServerCommunication {
         try {
             String data = obj.toString();
             //String encodedParams = URLEncoder.encode(data, "UTF-8");
-            String encodedParams = data;
+            //String encodedParams = data;
 
             URL u = new URL(serverURL+subPath);
             HttpURLConnection conn = (HttpURLConnection) u.openConnection();
@@ -49,11 +49,11 @@ public class ServerCommunicationImpl implements ServerCommunication {
             conn.setRequestMethod("POST");
             conn.setReadTimeout(10000);
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setRequestProperty("Content-Length", String.valueOf(encodedParams.length()));
+            conn.setRequestProperty("Content-Length", String.valueOf(data.length()));
 
             //debug("Writing params to server with POST");
             OutputStream os = conn.getOutputStream();
-            os.write(encodedParams.getBytes());
+            os.write(data.getBytes());
             os.flush();
             //os.close();
 
